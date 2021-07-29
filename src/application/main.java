@@ -1,7 +1,6 @@
 package application;
 
 
-import JDBC.sqlJava;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,10 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class main extends Application {
 
@@ -89,24 +84,15 @@ public class main extends Application {
         button.setFont(font1);
         button.setStyle("-fx-color: Green");
         button.setOnAction(actionEvent -> {
-
-            sqlJava store = new sqlJava();
-            Connection conn = sqlJava.getConnection();
-
-            PreparedStatement pst = null;
-            String sql = "INSERT INTO accountemy VALUES(?, ?, ?, ?, ?, ?)";
-            try {
-                pst = conn.prepareStatement(sql);
-                pst.setString(1, input.getText());
-                pst.setString(2, plot.getText());
-                pst.setString(3, plot1.getText());
-                pst.setString(4, input0.getText());
-                pst.setString(5, pw.getText());
-                pst.setString(6, pw1.getText());
-
-                pst.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            String errorMessage = "";
+            for(TextField eachInput : allInput){
+                if(eachInput.getText().length() == 0){
+                    eachInput.setPromptText("Fill out this field");
+                    errorMessage = errorMessage + "";
+                }
+                else{
+                    stage.close();
+                }
             }
         });
 
